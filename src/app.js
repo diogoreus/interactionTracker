@@ -1,49 +1,21 @@
+let Rx = require('../node_modules/rx/dist/rx.all.js');
 
-var $ = require('../node_modules/jquery/dist/jquery.js');
-// var Rx = require('../node_modules/rx/dist/rx.all.js');
-let intialTime = Date.now();
-let interval = 200;
+let clickStream = Rx.Observable.fromEvent(document, 'click');
+let mouseMoveStream = Rx.Observable.fromEvent(document, 'mousemove');
+let keyStream = Rx.Observable.fromEvent(document, 'keyup');
 
-window.Rx = Rx;
-window.$ = $;
+let mouseFilter = require('./filters/mouseMove.js');
+let clickFilter = require('./filters/click.js');
+let keyFilter = require('./filters/key.js');
 
-let stop = document.getElementById('stop');
-let clickStream = Rx.Observable.fromEvent(stop, 'click');
-let $input = $('input');
+window.events = [];
+
+mouseFilter(events, mouseMoveStream);
+clickFilter(events, clickStream);
+keyFilter(events, keyStream);
 
 
-window.keyups = Rx.Observable.fromEvent(document, 'keyup')
-  // .pluck('target', 'value')
-  // .filter(function (text) {
-  //   console.log('text: ', text)
-  //   return text.length > 2;
-  // })
-  .subscribe((e) => {
-    console.log(e)    
-  });
 
-console.log('stop', stop)
-console.log('$input', $input)
-
-let observable = Rx.Observable.fromEvent(document, 'mousemove');
-
-var subscription = observable   
-  .filter((e) => {
-    var timeStamp = e.timeStamp,
-        time = timeStamp - intialTime;
-    
-    if(time > interval){
-      intialTime = Date.now();
-      return e;
-    }
-  })
-  .distinctUntilChanged()
-  .subscribe((e) => {
-    // console.log(e)
-    $('h1').text(e.clientX + ',' + e.clientY);
-  });
-
-window.subscription = subscription;
 
 // var source = Rx.Observable
 //   .timer(200, 100)
