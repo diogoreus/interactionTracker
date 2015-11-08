@@ -1,0 +1,1 @@
+require('./uniqueSelector.test.js');
