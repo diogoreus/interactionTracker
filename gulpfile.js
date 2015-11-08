@@ -60,7 +60,7 @@ gulp.task('compile-tests', function() {
 		experimental: true,
 	}));
 
-	wb.add('./test/tests.js');
+	wb.add('./test/tests/tests.js');
 
 	return wb
     .bundle() // do the actual browerify/babelify compilation
@@ -68,13 +68,13 @@ gulp.task('compile-tests', function() {
       // If browserify fails at compiling,
       // we want that to be forwarded to the browser,
       // or we'll be confused why nothing has changed.
-      fs.createWriteStream("browser/tests.js")
+      fs.createWriteStream("test/tests.js")
       .write(
       	'var errStr = "COMPILATION ERROR! '+err.message+'";' +
       	'console.warn(errStr); document.write(errStr)')
       console.warn('Error :', err.message); this.emit('end')
   })
-    .pipe(fs.createWriteStream("browser/tests.js"))
+    .pipe(fs.createWriteStream("test/tests.js"))
     // write the whole shabang to teh build dir
 })
 
@@ -98,7 +98,7 @@ gulp.task('webserver-dev', ['compile'] ,function() {
 
 // Serving the tests in the browser, to teste in the comand lina $npm test
 gulp.task('webserver-tests', ['compile'] ,function() {
-	return gulp.src('./browser')
+	return gulp.src('./test')
 	.pipe(webserver({
       fallback: 'index.html', // defalt page to serve as root
       open: true,
@@ -120,9 +120,9 @@ gulp.task('watch', ['compile'], function () {
 		})
 	})
 
-	watch(['test/**/*.js'], function () {
+	watch(['./test/*.html', 'test/**/*.js', "!./test/tests.js"], function () {
 		runSequence(['compile-tests'], function() {
-			livereload.reload('browser/index.html')
+			livereload.reload('test/index.html')
 		})
 	})
 })

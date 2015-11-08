@@ -1,4 +1,4 @@
-var uniqueSelector = require('../src/helpers/uniqueSelector.js');
+var uniqueSelector = require('../../../src/helpers/uniqueSelector.js');
 var assert = require('assert');
 var expect = require('chai').expect;
 var $ = require('jquery');
@@ -7,7 +7,7 @@ window.$ = $;
 var template =
 '<div id="uniqueTest">' +
 	'<button class="btn1"></button>' +
-	'<ul>' +
+	'<ul class="list">' +
 		'<li></li>' +
 		'<li></li>' +
 		'<li></li>' +
@@ -28,12 +28,12 @@ describe('uniqueSelector', function () {
 	var $body = $('body'),
 		selectors = [
 			".btn1",
-			"ul",
+			"ul.list",
 			"form",
 			"input",
 			"textarea",
 			"#identified",
-			"ul li:nth-child(2)",
+			"ul.list li:nth-child(2)",
 			".container",
 			".container p:nth-child(1)"
 		]
@@ -58,6 +58,7 @@ describe('uniqueSelector', function () {
 				checkEl = $checkEl[0],
 				checkLength = $checkEl.length;
 
+			// console.log(selector + ' / ' + unqSelector);
 			expect(el).to.be.deep.equal(checkEl);
 			expect(checkLength).to.be.equal(1)
 		};

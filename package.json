@@ -3,14 +3,14 @@
   "version": "1.0.0",
   "description": "Code for Promises - Part 8 of Functional Programming in JavaScript",
   "scripts": {
-    "test": "./node_modules/.bin/mocha-phantomjs -R spec ./browser/index.html",
+    "test": "./node_modules/.bin/mocha-phantomjs -R spec ./test/index.html",
     "develop": "gulp"
   },
   "repository": {
     "type": "git",
     "url": "git+ssh://git@github.com/mpj/fpjs8.git"
   },
-  "author": "Mattias Petter Johansson <mpj@mpj.me>",
+  "author": "Diogo Reus",
   "license": "MIT",
   "dependencies": {
     "rxjs": "git+https://github.com/Reactive-Extensions/RxJS.git#v4.0.6",
